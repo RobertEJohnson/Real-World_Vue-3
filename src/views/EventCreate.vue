@@ -1,6 +1,9 @@
 <template>
 
 	<p>Current count of state: {{ count }}</p>
+
+	<!-- v-model.number will typecast all inputs as a number -->
+	<input type="number" v-model.number="incrementBy">
 	<button @click="incrementCount">Increase Count State</button>
 
 	<h1>Create Event, {{ user.name }}</h1>
@@ -36,6 +39,11 @@
 	import { mapState, mapGetters } from 'vuex'
 	
 	export default {
+		data(){
+			return {
+				incrementBy: 1
+			}
+		},
 
 		// FIRST KNOWN WAY FOR COMPUTED VALUES!
 
@@ -93,7 +101,7 @@
 		},
 		methods: {
 			incrementCount(){
-				this.$store.commit('INCREMENT_COUNT')
+				this.$store.commit('INCREMENT_COUNT', this.incrementBy)
 			}
 		}
 	}

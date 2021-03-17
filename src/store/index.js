@@ -19,8 +19,8 @@ export default createStore({
 		]
 	},
   mutations: {
-		INCREMENT_COUNT(state){
-			state.count += 1
+		INCREMENT_COUNT(state, value){
+			state.count += value
 		}
 	},
   actions: {},
