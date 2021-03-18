@@ -18,7 +18,9 @@ export default createStore({
 			{ id: 2, title: '...', organizer: '...' },
 			{ id: 3, title: '...', organizer: '...' },
 			{ id: 4, title: '...', organizer: '...' },
-		]
+		],
+		totalEvents: 0,
+		perPage: 3
 	},
   mutations: {
 		INCREMENT_COUNT(state, value){
@@ -27,6 +29,12 @@ export default createStore({
 		ADD_EVENT(state, event){
 			console.log('in ADD_EVENT mutation, pushing event to Vuex State');
 			state.events.push(event)
+		},
+		SET_EVENTS(state, events){
+			state.events = events
+		},
+		SET_TOTAL_EVENTS(state, total){
+			state.totalEvents = total
 		}
 	},
   actions: {
@@ -51,6 +59,17 @@ export default createStore({
 				.catch((err)=>{
 					console.log('There was a problem posting your event:', err);
 				})
+		},
+		fetchEvents({commit}, { perPage, page}){
+			EventService.getEvents(perPage, page)
+      .then(response => {
+				console.log('Total events are ' + response.headers['x-total-count'])
+				this.commit('SET_TOTAL_EVENTS', response.headers['x-total-count'])
+        this.commit('SET_EVENTS', response.data)
+      })
+      .catch(error => {
+        console.log(error)
+      })
 		}
 	},
   modules: {},
